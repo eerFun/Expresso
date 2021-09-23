@@ -16,7 +16,15 @@ const BookSchema = new Schema({
   },
   numberOfBooksInLibrary: {
     type: Number,
-    required: [true, '`numberOfBooksInLibrary: number` is required.']
+    required: [true, '`numberOfBooksInLibrary: number` is required.'],
+    default: 1,
+    min: [0, '`numberOfBooksInLibrary` must be greater or equal to ZERO.'],
+    validate: {
+      validator: function (value) {
+        return Number.isInteger(value)
+      },
+      message: props => `${props.value} is not an Integer number!`
+    }
   },
   createdAt: {
     type: Date,
