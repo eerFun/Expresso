@@ -15,9 +15,9 @@ app.disable('x-powered-by')
 app.use(methodOverride('X-HTTP-Method-Override'))
 
 // handle mongoose collection.ensureIndex warn
-mongoose.set('useNewUrlParser', true)
-mongoose.set('useFindAndModify', false)
-mongoose.set('useCreateIndex', true)
+// mongoose.set('useNewUrlParser', true)
+// mongoose.set('useFindAndModify', false)
+// mongoose.set('useCreateIndex', true)
 
 mongoose.connect(CONFIG.dbAddress, {
   useNewUrlParser: true,
