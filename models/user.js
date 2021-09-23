@@ -9,16 +9,20 @@ const UserSchema = new Schema({
     required: [true, '`name: string` is required.'],
     unique: true
   },
+  password: {
+    type: String,
+    required: [true, '`password: string` is required.']
+  },
   title: {
     type: String,
     enum: {
-      values: ['client', 'librarian'],
+      values: ['superadmin', 'client', 'librarian'],
       message: '{VALUE} is not supported, it can be only `client` or `librarian`.'
     },
     required: [true, '`title: enum[\'client\', \'librarian\']` is required.'],
     immutable: [true, '`title` can not be changed.']
   },
-  assignedBooks: [{
+  assignedBookList: [{
     type: Schema.Types.ObjectId,
     ref: 'Book'
   }],

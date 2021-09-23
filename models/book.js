@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 const BookSchema = new Schema({
   name: {
     type: String,
-    required: [true, '`name: string` is required.']
+    required: [true, '`name: string` is required.'],
+    unique: true
   },
   description: {
     type: String,
@@ -30,6 +31,14 @@ const BookSchema = new Schema({
     type: Date,
     required: true,
     default: Date.now
+  }
+})
+
+BookSchema.post('save', function (error, doc, next) {
+  if (error.name === 'MongoError' && error.code === 11000) {
+    next(new Error(`The input '${error.message.split('index: ')[1].split('_1')[0]}' already exists`))
+  } else {
+    next()
   }
 })
 

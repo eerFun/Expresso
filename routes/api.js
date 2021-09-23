@@ -2,10 +2,10 @@
 const express = require('express')
 const router = express.Router()
 const usersRouter = require('./api/users')
-// const booksRouter = require('./api/books')
+const booksRouter = require('./api/books')
 
 router.use('/users', usersRouter)
-// router.use('/books', booksRouter)
+router.use('/books', booksRouter)
 
 //* ******************************************************************************
 //  Ping API

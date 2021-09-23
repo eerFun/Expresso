@@ -1,6 +1,7 @@
 module.exports = {
-  open: {
-    updateAnyUser: ['name']
+  superadmin: {
+    updateAnyUser: ['name', 'passwords'],
+    updateAnyBook: ['name', 'description', 'author', 'numberOfBooksInLibrary']
   },
   librarian: {
   },

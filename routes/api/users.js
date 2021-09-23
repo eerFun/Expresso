@@ -11,14 +11,16 @@ const CONFIG = require('../../config/config')
 const AC_CONFIG = require('../../config/access-controller')
 
 router.post('/',
-  body('name').isString(),
-  body('title').isString().isIn(['client', 'librarian']),
+  body('name').exists().isString(),
+  body('password').exists().isStrongPassword(),
+  body('title').exists().isString().isIn(['client', 'librarian']),
   validator.result,
   async (req, res, next) => {
     try {
       let user = new User({
         name: req.body.name,
-        title: req.body.title
+        title: req.body.title,
+        password: req.body.password
       })
       user = await user.save()
 
@@ -37,7 +39,7 @@ router.get('/:id',
   validator.result,
   async (req, res, next) => {
     try {
-      const userObj = await User.findById(req.params.id, '-__v -assignedBooks').lean().exec()
+      const userObj = await User.findById(req.params.id, '-__v -assignedBookList').lean().exec()
       if (!userObj) {
         throw { status: 404, msgFa: 'کاربر یافت نشد', msgEn: 'User not found' }
       }
@@ -57,7 +59,7 @@ router.get('/',
       const size = +req.query.size || CONFIG.pageSize
       const page = +req.query.page || 1
       const sort = req.query.sort || '-createdAt'
-      const userListObj = await User.find(queryObj, '-__v -assignedBooks').lean()
+      const userListObj = await User.find(queryObj, '-__v -assignedBookList').lean()
         .sort(sort).skip((page - 1) * size).limit(size).exec()
       const totalCount = await User.countDocuments(queryObj).exec()
 
@@ -72,7 +74,7 @@ router.get('/',
 
 router.put('/:id/assign-book',
   param('id').isMongoId(),
-  body('bookId').isMongoId(),
+  body('bookId').exists().isMongoId(),
   validator.result,
   async (req, res, next) => {
     try {
@@ -91,7 +93,7 @@ router.put('/:id/assign-book',
 
       book.numberOfBooksInLibrary--
       book = await book.save()
-      user.assignedBooks.push(book._id)
+      user.assignedBookList.push(book._id)
       user = await user.save()
 
       return res.json({
@@ -106,7 +108,7 @@ router.put('/:id/assign-book',
 
 router.put('/:id/restore-book',
   param('id').isMongoId(),
-  body('bookId').isMongoId(),
+  body('bookId').exists().isMongoId(),
   validator.result,
   async (req, res, next) => {
     try {
@@ -121,7 +123,7 @@ router.put('/:id/restore-book',
 
       book.numberOfBooksInLibrary++
       book = await book.save()
-      user.assignedBooks = tools.deleteFromArray(book._id, user.assignedBooks)
+      user.assignedBookList = tools.deleteFromArray(book._id, user.assignedBookList)
 
       return res.json({
         user: tools.toCleanObject(user.toObject(), ['__v']),
@@ -143,7 +145,7 @@ router.put('/:id',
         throw { status: 404, msgFa: 'کاربر یافت نشد', msgEn: 'User not found' }
       }
 
-      const filteredBody = _pick(req.body, AC_CONFIG.open.updateAnyUser)
+      const filteredBody = _pick(req.body, AC_CONFIG[req.user.role].updateAnyUser)
       user.set(filteredBody)
       const newUser = await user.save()
 
