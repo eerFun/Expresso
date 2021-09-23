@@ -13,14 +13,14 @@ const UserSchema = new Schema({
     type: String,
     required: [true, '`password: string` is required.']
   },
-  title: {
+  role: {
     type: String,
     enum: {
       values: ['superadmin', 'client', 'librarian'],
       message: '{VALUE} is not supported, it can be only `client` or `librarian`.'
     },
-    required: [true, '`title: enum[\'client\', \'librarian\']` is required.'],
-    immutable: [true, '`title` can not be changed.']
+    required: [true, '`role: enum[\'client\', \'librarian\']` is required.'],
+    immutable: [true, '`role` can not be changed.']
   },
   assignedBookList: [{
     type: Schema.Types.ObjectId,
@@ -46,7 +46,7 @@ UserSchema.pre('save', function (next) {
 })
 
 UserSchema.post('save', function (error, doc, next) {
-  if (error.name === 'MongoError' && error.code === 11000) {
+  if (error.code === 11000) {
     next(new Error(`The input '${error.message.split('index: ')[1].split('_1')[0]}' already exists`))
   } else {
     next()

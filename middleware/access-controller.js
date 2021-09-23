@@ -1,4 +1,3 @@
-/* eslint-disable prefer-promise-reject-errors */
 /* eslint-disable no-throw-literal */
 const accessController = {}
 

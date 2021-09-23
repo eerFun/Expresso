@@ -3,14 +3,16 @@ const express = require('express')
 const router = express.Router()
 const { body, param } = require('express-validator')
 const _pick = require('object.pick')
+const ac = require('../../middleware/access-controller')
 const validator = require('../../middleware/validator')
-// const { User } = require('../../models/user')
+const { User } = require('../../models/user')
 const { Book } = require('../../models/book')
 const tools = require('../../tools/tools')
 const CONFIG = require('../../config/config')
 const AC_CONFIG = require('../../config/access-controller')
 
 router.post('/',
+  ac.isAuthorizedOn(['superadmin', 'librarian']),
   body('name').exists().isString(),
   body('description').optional().isString().trim(),
   body('author').exists().isString(),
@@ -37,6 +39,7 @@ router.post('/',
   })
 
 router.get('/:id',
+  ac.isAuthorizedOn(['superadmin', 'librarian']),
   param('id').isMongoId(),
   validator.result,
   async (req, res, next) => {
@@ -55,9 +58,18 @@ router.get('/:id',
   })
 
 router.get('/',
+  ac.isAuthorizedOn(['superadmin', 'librarian', 'client']),
   async (req, res, next) => {
     try {
       const queryObj = {}
+      if (req.user.role === 'client') {
+        const user = await User.findById(req.user._id).lean().exec()
+        if (!user) {
+          throw { status: 404, msgFa: 'کاربر یافت نشد', msgEn: 'User not found' }
+        }
+        queryObj._id.$in = user.assignedBookList
+      }
+
       const size = +req.query.size || CONFIG.pageSize
       const page = +req.query.page || 1
       const sort = req.query.sort || '-createdAt'
@@ -75,6 +87,7 @@ router.get('/',
   })
 
 router.put('/:id',
+  ac.isAuthorizedOn(['superadmin', 'librarian']),
   param('id').isMongoId(),
   validator.result,
   async (req, res, next) => {
@@ -99,6 +112,7 @@ router.put('/:id',
   })
 
 router.delete('/:id',
+  ac.isAuthorizedOn(['superadmin', 'librarian']),
   param('id').isMongoId(),
   validator.result,
   async (req, res, next) => {

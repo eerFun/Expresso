@@ -3,12 +3,12 @@ const CONFIG = require('../config/config')
 
 module.exports = async () => {
   try {
-    let superAdmin = await User.findOne({ title: 'superadmin' }).lean().exec()
+    let superAdmin = await User.findOne({ role: 'superadmin' }).lean().exec()
 
     if (!superAdmin) {
       superAdmin = new User({
         name: 'super admin',
-        title: 'superadmin',
+        role: 'superadmin',
         password: CONFIG.superAdminPassword
       })
       await superAdmin.save()
@@ -16,8 +16,8 @@ module.exports = async () => {
     } else {
       console.log('superadmin has already created.')
     }
-  } catch (err) {
-    console.log('Initialization Error: ' + err)
+  } catch (error) {
+    console.log('Initialization Error: ' + error)
     process.exit(1)
   }
 }

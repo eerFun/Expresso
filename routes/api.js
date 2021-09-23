@@ -1,11 +1,12 @@
 /* eslint-disable no-throw-literal */
 const express = require('express')
 const router = express.Router()
+const auth = require('../middleware/authenticate')
 const usersRouter = require('./api/users')
 const booksRouter = require('./api/books')
 
-router.use('/users', usersRouter)
-router.use('/books', booksRouter)
+router.use('/users', auth.authenticate, usersRouter)
+router.use('/books', auth.authenticate, booksRouter)
 
 //* ******************************************************************************
 //  Ping API

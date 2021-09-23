@@ -35,7 +35,7 @@ const BookSchema = new Schema({
 })
 
 BookSchema.post('save', function (error, doc, next) {
-  if (error.name === 'MongoError' && error.code === 11000) {
+  if (error.code === 11000) {
     next(new Error(`The input '${error.message.split('index: ')[1].split('_1')[0]}' already exists`))
   } else {
     next()

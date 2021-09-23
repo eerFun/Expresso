@@ -1,0 +1,628 @@
+{
+	"info": {
+		"_postman_id": "20786802-b7c1-482d-aab2-670f8e3e3ed9",
+		"name": "Hiro Library",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "[create]",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "librarian1",
+											"type": "text"
+										},
+										{
+											"key": "role",
+											"value": "librarian",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "Qwer1234%",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{serverAddress}}/api/users",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "[get-all]",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{serverAddress}}/api/users",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"users"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "+createdAt",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "10",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{id}",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{serverAddress}}/api/users/:id",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "614cf33feb6a354f8dd894cd"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{id}",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "client1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{serverAddress}}/api/users/:id",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "614cad6a80605ee17f75d2ff"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{id}/assign-book",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "bookId",
+											"value": "614cf4c37ba7be7f0a4a2229",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{serverAddress}}/api/users/:id/assign-book",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":id",
+										"assign-book"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "614cf3947ba7be7f0a4a2225"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{id}/restore-book",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "bookId",
+											"value": "614cf4c37ba7be7f0a4a2229",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{serverAddress}}/api/users/:id/restore-book",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":id",
+										"restore-book"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "614cf3947ba7be7f0a4a2225"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{id}",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{serverAddress}}/api/users/:id",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "614cf33feb6a354f8dd894cd"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "books",
+					"item": [
+						{
+							"name": "[create]",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "book2",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "  This is a description for the book  ",
+											"type": "text"
+										},
+										{
+											"key": "author",
+											"value": "author2",
+											"type": "text"
+										},
+										{
+											"key": "numberOfBooksInLibrary",
+											"value": "0",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{serverAddress}}/api/books",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "[get-all]",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{serverAddress}}/api/books",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"books"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "+createdAt",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "size",
+											"value": "10",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{id}",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{serverAddress}}/api/books/:id",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"books",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "614cf56b62e064fcfc1c84a3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{id}",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "book2",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "  This is a description for the book  ",
+											"type": "text"
+										},
+										{
+											"key": "author",
+											"value": "author1",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "numberOfBooksInLibrary",
+											"value": "10",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{serverAddress}}/api/books/:id",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"books",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "614cf56b62e064fcfc1c84a3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "{id}",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "jwt",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{serverAddress}}/api/books/:id",
+									"host": [
+										"{{serverAddress}}"
+									],
+									"path": [
+										"api",
+										"books",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "614cf56b62e064fcfc1c84a3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "super admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{serverAddress}}/auth/login",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh-token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "jwt",
+								"value": "{{refreshToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{serverAddress}}/auth/refresh-token",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"auth",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "jwt",
+								"value": "{{refreshToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{serverAddress}}/auth/logout",
+							"host": [
+								"{{serverAddress}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ping",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{serverAddress}}/api/ping",
+					"host": [
+						"{{serverAddress}}"
+					],
+					"path": [
+						"api",
+						"ping"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "token"
+		}
+	]
+}
