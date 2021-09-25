@@ -12,8 +12,8 @@ const authTools = require('../tools/authenticate')
 const CONFIG = require('../config/config')
 
 router.post('/login',
-  body('name'),
-  body('password'),
+  body('name').exists(),
+  body('password').exists(),
   validator.result,
   async (req, res, next) => {
     try {
@@ -51,7 +51,7 @@ router.post('/login',
         msgEn: 'Welcome'
       })
     } catch (error) {
-      next({ status: 500, err: error.message, msgFa: 'خطا: عدم موفقیت در ورود ', msgEn: 'Error: failure to login' })
+      next(error)
     }
   })
 
