@@ -62,18 +62,20 @@ router.get('/',
   async (req, res, next) => {
     try {
       const queryObj = {}
+      let projectionStr = '-__v'
       if (req.user.role === 'client') {
         const user = await User.findById(req.user._id).lean().exec()
         if (!user) {
           throw { status: 404, msgFa: 'کاربر یافت نشد', msgEn: 'User not found' }
         }
-        queryObj._id.$in = user.assignedBookList
+        queryObj._id = { $in: user.assignedBookList }
+        projectionStr += ' -numberOfBooksInLibrary'
       }
 
       const size = +req.query.size || CONFIG.pageSize
       const page = +req.query.page || 1
       const sort = req.query.sort || '-createdAt'
-      const bookListObj = await Book.find(queryObj, '-__v').lean()
+      const bookListObj = await Book.find(queryObj, projectionStr).lean()
         .sort(sort).skip((page - 1) * size).limit(size).exec()
       const totalCount = await Book.countDocuments(queryObj).exec()
 
